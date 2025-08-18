@@ -4,11 +4,7 @@ export function add(numbers: string): number {
     }
 
     const numberArray = numbers.split(',')
-    let sum = 0
-
-    for (const num of numberArray) {
-        sum += parseInt(num)
-    }
-
-    return sum
+    return numberArray
+        .map(num => parseInt(num))
+        .reduce((sum, num) => sum + num, 0)
 }
