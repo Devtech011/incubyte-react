@@ -3,7 +3,7 @@ export function add(numbers: string): number {
         return 0
     }
 
-    const numberArray = numbers.split(',')
+    const numberArray = numbers.split(/[,\n]/)
     return numberArray
         .map(num => parseInt(num))
         .reduce((sum, num) => sum + num, 0)
