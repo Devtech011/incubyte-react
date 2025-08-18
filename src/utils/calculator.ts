@@ -3,6 +3,11 @@ export function add(numbers: string): number {
         return 0
     }
 
+    const negativeNumbers = extractNegativeNumbers(numbers)
+    if (negativeNumbers.length > 0) {
+        throw new Error(`negative numbers not allowed ${negativeNumbers.join(',')}`)
+    }
+
     const { delimiter, numbersString } = parseCustomDelimiter(numbers)
 
     const numberArray = numbersString
@@ -22,4 +27,11 @@ const parseCustomDelimiter = (numbers: string): { delimiter: string; numbersStri
     }
 
     return { delimiter: ',', numbersString: numbers }
+}
+
+const extractNegativeNumbers = (numbers: string): number[] => {
+    const allNumbers = numbers.match(/-?\d+/g) || []
+    return allNumbers
+        .map(num => parseInt(num))
+        .filter(num => num < 0)
 }
