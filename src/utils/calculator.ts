@@ -1,19 +1,21 @@
-export function add(numbers: string): number {
+const add = (numbers: string): number => {
     if (numbers === '') {
         return 0
     }
 
-    const negativeNumbers = extractNegativeNumbers(numbers)
+    const { delimiter, numbersString } = parseCustomDelimiter(numbers)
+    const normalized = numbersString.split('\n').join(delimiter)
+
+    const numberArray = normalized
+        .split(delimiter)
+        .map(num => num.trim())
+        .filter(num => num !== '')
+        .map(num => parseInt(num, 10))
+
+    const negativeNumbers = numberArray.filter(num => num < 0)
     if (negativeNumbers.length > 0) {
         throw new Error(`negative numbers not allowed ${negativeNumbers.join(',')}`)
     }
-
-    const { delimiter, numbersString } = parseCustomDelimiter(numbers)
-
-    const numberArray = numbersString
-        .split(new RegExp(`[${delimiter},\n]`))
-        .filter(num => num.trim() !== '')
-        .map(num => parseInt(num))
 
     return numberArray.reduce((sum, num) => sum + num, 0)
 }
@@ -29,9 +31,4 @@ const parseCustomDelimiter = (numbers: string): { delimiter: string; numbersStri
     return { delimiter: ',', numbersString: numbers }
 }
 
-const extractNegativeNumbers = (numbers: string): number[] => {
-    const allNumbers = numbers.match(/-?\d+/g) || []
-    return allNumbers
-        .map(num => parseInt(num))
-        .filter(num => num < 0)
-}
+export { add }
