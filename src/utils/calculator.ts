@@ -3,5 +3,12 @@ export function add(numbers: string): number {
         return 0
     }
 
-    return parseInt(numbers)
+    const numberArray = numbers.split(',')
+    let sum = 0
+
+    for (const num of numberArray) {
+        sum += parseInt(num)
+    }
+
+    return sum
 }
